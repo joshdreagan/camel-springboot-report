@@ -1,1 +1,1 @@
-# camel-springboot-report
+# camel-wildfly-notification

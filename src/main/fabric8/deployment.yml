@@ -1,0 +1,47 @@
+spec:
+  template:
+    spec:
+      serviceAccountName: ${project.artifactId}-sa
+      containers:
+      - name: ${project.artifactId}
+        imagePullPolicy: Always
+        env:
+        - name: CAMEL_CONFIG_LOCATIONS
+          value: /etc/config,/etc/secret
+        - name: JGROUPS_PING_PROTOCOL
+          value: openshift.DNS_PING
+        - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+          value: ${project.artifactId}-ping
+        - name: OPENSHIFT_DNS_PING_SERVICE_PORT
+          value: 8888
+        livenessProbe:
+          exec:
+            command:
+            - "/bin/bash"
+            - "-c"
+            - "/opt/eap/bin/livenessProbe.sh"
+        readinessProbe:
+          exec:
+            command:
+            - "/bin/bash"
+            - "-c"
+            - "/opt/eap/bin/readinessProbe.sh"
+        resources:
+          requests:
+            cpu: "1.0"
+          limits:
+            cpu: "4.0"
+        volumeMounts:
+        - name: ${project.artifactId}-configmap-vol
+          mountPath: /etc/config
+          readOnly: true
+        - name: ${project.artifactId}-secret-vol
+          mountPath: /etc/secret
+          readOnly: true
+      volumes:
+      - name: ${project.artifactId}-configmap-vol
+        configMap:
+          name: ${project.artifactId}-configmap
+      - name: ${project.artifactId}-secret-vol
+        secret:
+          secretName: ${project.artifactId}-secret

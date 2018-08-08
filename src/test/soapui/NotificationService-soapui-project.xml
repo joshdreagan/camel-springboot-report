@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="7b2b8237-c874-4eff-a62e-3e8814cbaf2e" activeEnvironment="Default" name="NotificationService" resourceRoot="${projectDir}" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="5d1a5b83-49f5-4ce9-86f5-749c19e2b389" wsaVersion="NONE" name="NotificationServiceSoapBinding" type="wsdl" bindingName="{http://camel.apache.org/examples}NotificationServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/camel-wildfly-notification-1.0.0-SNAPSHOT/NotificationService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/camel-wildfly-notification-1.0.0-SNAPSHOT/NotificationService?wsdl"><con:part><con:url>http://localhost:8080/camel-wildfly-notification-1.0.0-SNAPSHOT/NotificationService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="NotificationService" targetNamespace="http://camel.apache.org/examples" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://camel.apache.org/examples" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://camel.apache.org/examples" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="notificationRequest" type="tns:notificationRequest"/>
+      <xs:complexType name="notificationRequest">
+        <xs:sequence>
+          <xs:element name="recipients">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="recipient" type="xs:string"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="notification" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendNotificationResponse"></wsdl:message>
+  <wsdl:message name="sendNotification">
+    <wsdl:part element="tns:notificationRequest" name="notificationRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="NotificationService">
+    <wsdl:operation name="sendNotification">
+      <wsdl:input message="tns:sendNotification" name="sendNotification"></wsdl:input>
+      <wsdl:output message="tns:sendNotificationResponse" name="sendNotificationResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NotificationServiceSoapBinding" type="tns:NotificationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendNotification">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sendNotification">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendNotificationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotificationService">
+    <wsdl:port binding="tns:NotificationServiceSoapBinding" name="NotificationServiceSoapBinding">
+      <soap:address location="http://localhost:8080/camel-wildfly-notification-1.0.0-SNAPSHOT/NotificationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://camel-wildfly-notification-fuse.192.168.99.100.nip.io/NotificationService</con:endpoint><con:endpoint>http://localhost:8080/NotificationService</con:endpoint></con:endpoints><con:operation id="ef846c80-a98e-4aa5-bc08-1bb9159ad6d6" isOneWay="false" action="" name="sendNotification" bindingOperationName="sendNotification" type="Request-Response" outputName="sendNotificationResponse" inputName="sendNotification" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9965c91d-9ed8-4019-ae28-3fba249ae21e" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://camel-wildfly-notification-fuse.192.168.99.100.nip.io/NotificationService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:exam="http://camel.apache.org/examples">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <exam:notificationRequest>
+         <recipients>
+            <!--1 or more repetitions:-->
+            <recipient>gcostanza@nyyankees.com</recipient>
+            <recipient>ckramer@handhbagels.com</recipient>
+         </recipients>
+         <notification>Focus on importing, not exporting</notification>
+      </exam:notificationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://camel.apache.org/examples/NotificationService/sendNotification"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
