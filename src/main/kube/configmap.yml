@@ -1,7 +1,7 @@
 apiVersion: "v1"
 kind: "ConfigMap"
 metadata:
-  name: ${project.artifactId}-configmap
+  name: camel-wildfly-notification-configmap
 data:
   application.properties: |-
     camel.mail.prefix: smtp

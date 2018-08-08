@@ -50,16 +50,16 @@ public class CamelConfiguration extends RouteBuilder {
     List<String> propertyLocations = new ArrayList<>();
     propertyLocations.add("classpath:/application.properties;optional=true");
     propertyLocations.add("file:${user.home}/application.properties;optional=true");
-    propertyLocations.add("file:${camel.config.location}/application.properties;optional=true");
+    propertyLocations.add("file:${camel.config.location};optional=true");
     if (System.getProperty("camel.config.locations") != null) {
       for (String location : System.getProperty("camel.config.locations").split(",")) {
-        propertyLocations.add("file:" + location + "/application.properties;optional=true");
+        propertyLocations.add("file:" + location + ";optional=true");
       }
     }
-    propertyLocations.add("file:${env:CAMEL_CONFIG_LOCATION}/application.properties;optional=true");
+    propertyLocations.add("file:${env:CAMEL_CONFIG_LOCATION};optional=true");
     if (System.getenv("CAMEL_CONFIG_LOCATIONS") != null) {
       for (String location : System.getenv("CAMEL_CONFIG_LOCATIONS").split(",")) {
-        propertyLocations.add("file:" + location + "/application.properties;optional=true");
+        propertyLocations.add("file:" + location + ";optional=true");
       }
     }
     properties.setLocations(propertyLocations);

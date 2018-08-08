@@ -5,15 +5,29 @@ spec:
       containers:
       - name: ${project.artifactId}
         imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: ping
+          containerPort: 8888
+        - name: jolokia
+          containerPort: 8778
         env:
         - name: CAMEL_CONFIG_LOCATIONS
-          value: /etc/config,/etc/secret
+          value: /etc/config/application.properties,/etc/secret/application.properties
         - name: JGROUPS_PING_PROTOCOL
           value: openshift.DNS_PING
         - name: OPENSHIFT_DNS_PING_SERVICE_NAME
           value: ${project.artifactId}-ping
         - name: OPENSHIFT_DNS_PING_SERVICE_PORT
           value: 8888
+        - name: JGROUPS_CLUSTER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ${project.artifactId}-secret
+              key: jgroups.cluster.password
+        - name: MQ_QUEUES
+          value: NotificationQueue
         livenessProbe:
           exec:
             command:
@@ -28,7 +42,7 @@ spec:
             - "/opt/eap/bin/readinessProbe.sh"
         resources:
           requests:
-            cpu: "1.0"
+            cpu: "0.4"
           limits:
             cpu: "4.0"
         volumeMounts:
@@ -42,6 +56,12 @@ spec:
       - name: ${project.artifactId}-configmap-vol
         configMap:
           name: ${project.artifactId}-configmap
+          items:
+          - key: application.properties
+            path: application.properties
       - name: ${project.artifactId}-secret-vol
         secret:
           secretName: ${project.artifactId}-secret
+          items:
+          - key: application.properties
+            path: application.properties

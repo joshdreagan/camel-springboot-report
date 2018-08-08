@@ -19,7 +19,7 @@
     <maven.compiler.target>8</maven.compiler.target>
 
     <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-    <fabric8-maven-plugin.version>3.5.39</fabric8-maven-plugin.version>
+    <fabric8-maven-plugin.version>3.5.41</fabric8-maven-plugin.version>
     <wildfly-maven-plugin.version>1.2.2.Final</wildfly-maven-plugin.version>
 
     <fuse.version>7.0.1.fuse-000008-redhat-4</fuse.version>
@@ -117,6 +117,11 @@
   <profiles>
     <profile>
       <id>openshift</id>
+      <properties>
+        <project.image.from>registry.access.redhat.com/fuse7/fuse-eap-openshift:1.0</project.image.from>
+        <project.image.userHome>/home/jboss</project.image.userHome>
+        <project.image.deployDir>/deployments</project.image.deployDir>
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -130,17 +135,13 @@
                 <image>
                   <name>%g/%a:%l</name>
                   <build>
-                    <from>registry.access.redhat.com/fuse7/fuse-eap-openshift:1.0</from>
-                    <ports>
-                      <port>8080</port>
-                      <port>8888</port>
-                      <port>8778</port>
-                    </ports>
+                    <from>${project.image.from}</from>
+                    <runCmds>
+                      <run>cp ${project.image.userHome}/${project.image.deployDir}/* /deployments/</run>
+                    </runCmds>
                     <assembly>
-                      <descriptorRef>rootWar</descriptorRef>
-                      <targetDir>/deployments</targetDir>
+                      <targetDir>${project.image.userHome}</targetDir>
                       <inline>
-                        <includeBaseDirectory>false</includeBaseDirectory>
                         <dependencySets>
                           <dependencySet>
                             <includes>
@@ -148,17 +149,10 @@
                             </includes>
                             <fileMode>0664</fileMode>
                             <directoryMode>0775</directoryMode>
-                            <outputDirectory>/</outputDirectory>
+                            <outputDirectory>deployments</outputDirectory>
                             <outputFileNameMapping>ROOT.war</outputFileNameMapping>
                           </dependencySet>
                         </dependencySets>
-                        <files>
-                          <file>
-                            <source>src/main/wildfly/artemis-jms.xml</source>
-                            <outputDirectory>/</outputDirectory>
-                            <fileMode>0664</fileMode>
-                          </file>
-                        </files>
                       </inline>
                     </assembly>
                   </build>
