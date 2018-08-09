@@ -23,7 +23,6 @@
     <wildfly-maven-plugin.version>1.2.2.Final</wildfly-maven-plugin.version>
 
     <fuse.version>7.0.1.fuse-000008-redhat-4</fuse.version>
-    <commons-lang.version>2.6</commons-lang.version>
   </properties>
 
   <dependencyManagement>

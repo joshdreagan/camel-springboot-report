@@ -42,7 +42,7 @@ spec:
             - "/opt/eap/bin/readinessProbe.sh"
         resources:
           requests:
-            cpu: "0.4"
+            cpu: "0.2"
           limits:
             cpu: "4.0"
         volumeMounts:
